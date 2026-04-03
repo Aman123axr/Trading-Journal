@@ -1,19 +1,6 @@
 import express from "express";
 import cors from "cors";
 import { z } from "zod";
-import { buildDemoTrades } from "./data/demo";
-import { buildCalendar, buildDashboardSummary, buildInsights, defaultThresholds } from "./services/analytics";
-import { syncTradesFromDelta } from "./services/delta";
-import { generateMarketPulse } from "./services/marketPulse";
-import { getConnectionStatus } from "./services/stream";
-import {
-  getLatestMarketPulse,
-  getLatestSync,
-  getTrades,
-  saveMarketPulse,
-  seedSettingsIfEmpty,
-  upsertTrades,
-} from "./services/storage";
 
 const filterSchema = z.object({
   month: z.string().optional(),
@@ -36,6 +23,11 @@ app.get("/api/health", (_request, response) => {
 app.get("/api/dashboard/summary", async (_request, response, next) => {
   try {
     await ensureDataAvailable();
+    const [{ buildDashboardSummary }, { getConnectionStatus }, { getLatestSync, getTrades }] = await Promise.all([
+      import("./services/analytics"),
+      import("./services/stream"),
+      import("./services/storage"),
+    ]);
     const trades = await getTrades();
     const latestSync = await getLatestSync();
     response.json(buildDashboardSummary(trades, latestSync, getConnectionStatus()));
@@ -47,6 +39,7 @@ app.get("/api/dashboard/summary", async (_request, response, next) => {
 app.get("/api/calendar", async (request, response, next) => {
   try {
     await ensureDataAvailable();
+    const [{ buildCalendar }, { getTrades }] = await Promise.all([import("./services/analytics"), import("./services/storage")]);
     const parsed = filterSchema.parse(request.query);
     const month = parsed.month ?? new Date().toISOString().slice(0, 7);
     const trades = await getTrades();
@@ -59,6 +52,7 @@ app.get("/api/calendar", async (request, response, next) => {
 app.get("/api/trades", async (request, response, next) => {
   try {
     await ensureDataAvailable();
+    const { getTrades } = await import("./services/storage");
     const parsed = filterSchema.parse(request.query);
     const trades = await getTrades({
       from: parsed.from ?? null,
@@ -85,6 +79,8 @@ app.get("/api/trades", async (request, response, next) => {
 app.get("/api/insights", async (_request, response, next) => {
   try {
     await ensureDataAvailable();
+    const [{ buildDashboardSummary, buildInsights, defaultThresholds }, { getConnectionStatus }, { getLatestSync, getTrades }] =
+      await Promise.all([import("./services/analytics"), import("./services/stream"), import("./services/storage")]);
     const trades = await getTrades();
     const summary = buildDashboardSummary(trades, await getLatestSync(), getConnectionStatus());
     response.json({
@@ -98,6 +94,10 @@ app.get("/api/insights", async (_request, response, next) => {
 
 app.get("/api/market-pulse", async (_request, response, next) => {
   try {
+    const [{ generateMarketPulse }, { getLatestMarketPulse, saveMarketPulse }] = await Promise.all([
+      import("./services/marketPulse"),
+      import("./services/storage"),
+    ]);
     let pulse = await getLatestMarketPulse();
     if (!pulse) {
       pulse = await generateMarketPulse();
@@ -111,6 +111,11 @@ app.get("/api/market-pulse", async (_request, response, next) => {
 
 app.post("/api/sync/delta", async (_request, response, next) => {
   try {
+    const [{ syncTradesFromDelta }, { generateMarketPulse }, { saveMarketPulse }] = await Promise.all([
+      import("./services/delta"),
+      import("./services/marketPulse"),
+      import("./services/storage"),
+    ]);
     const result = await syncTradesFromDelta();
     const pulse = await generateMarketPulse();
     await saveMarketPulse(pulse);
@@ -129,6 +134,11 @@ app.use((error: unknown, _request: express.Request, response: express.Response, 
 });
 
 async function ensureDataAvailable() {
+  const [{ buildDemoTrades }, { defaultThresholds }, { getTrades, seedSettingsIfEmpty, upsertTrades }] = await Promise.all([
+    import("./data/demo"),
+    import("./services/analytics"),
+    import("./services/storage"),
+  ]);
   await seedSettingsIfEmpty({
     overtradingTradeCount: String(defaultThresholds.overtradingTradeCount),
     minTradeSpacingMinutes: String(defaultThresholds.minTradeSpacingMinutes),
