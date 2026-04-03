@@ -1,0 +1,10 @@
+{
+  "framework": "vite",
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
+  "functions": {
+    "api/[...path].ts": {
+      "maxDuration": 60
+    }
+  }
+}

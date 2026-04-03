@@ -1,0 +1,363 @@
+﻿.terminal-shell {
+  min-height: 100vh;
+  background: #06080f;
+  color: #c0cce8;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+}
+body {
+  background: #06080f;
+  color: #c0cce8;
+}
+.terminal-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(11, 15, 26, 0.96);
+  border-bottom: 1px solid #1a2438;
+  backdrop-filter: blur(18px);
+}
+.header-inner,
+.tab-row,
+.terminal-content {
+  width: min(1220px, calc(100% - 32px));
+  margin: 0 auto;
+}
+.header-inner {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.brand-block,
+.header-actions,
+.header-stats,
+.month-nav,
+.month-stats,
+.toolbar-row,
+.chip-row,
+.analysis-panels,
+.analysis-grid-top,
+.list-row,
+.asset-row-top,
+.insight-head,
+.signal-chip-row {
+  display: flex;
+  gap: 12px;
+}
+.brand-block { align-items: center; }
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #00e5a0, #4a9eff);
+  color: #06080f;
+  font-weight: 900;
+}
+.brand-title {
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+.brand-subtitle,
+.section-label,
+.stat-label,
+.stat-sub,
+.cell-sub,
+.toolbar-note,
+.card-subtext,
+.week-label,
+.calendar-trade-count,
+.calendar-head div,
+.tab-btn,
+.market-summary-copy,
+.status-card {
+  color: #48567a;
+}
+.brand-subtitle,
+.section-label,
+.calendar-head div,
+.tab-btn,
+.stat-label {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.tab-row {
+  display: flex;
+  gap: 6px;
+  padding-bottom: 12px;
+}
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+.tab-btn.active {
+  color: #00e5a0;
+  border-bottom: 2px solid #00e5a0;
+}
+.header-stats { align-items: center; }
+.stat-box {
+  min-width: 92px;
+  text-align: center;
+}
+.stat-value,
+.big-metric,
+.month-title,
+.signal-display {
+  font-family: "JetBrains Mono", monospace;
+}
+.stat-value {
+  color: #fff;
+  font-weight: 800;
+  font-size: 1rem;
+}
+.positive { color: #00e5a0; }
+.negative { color: #ff3d5a; }
+.terminal-btn,
+.filter-chip,
+.nav-btn {
+  border: 1px solid #1a2438;
+  background: #101520;
+  color: #c0cce8;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.terminal-btn { padding: 10px 16px; font-weight: 700; }
+.terminal-btn.primary {
+  background: linear-gradient(135deg, #00e5a0, #00b07a);
+  color: #06080f;
+  border: none;
+}
+.terminal-btn.ghost:hover,
+.filter-chip:hover,
+.nav-btn:hover { border-color: #223050; }
+.terminal-content {
+  padding: 24px 0 36px;
+}
+.view-stack { display: grid; gap: 16px; }
+.terminal-card,
+.status-card,
+.market-hero-card {
+  background: #101520;
+  border: 1px solid #1a2438;
+  border-radius: 14px;
+  padding: 20px;
+}
+.status-card,
+.toolbar-row,
+.month-header,
+.list-row,
+.asset-row-top,
+.insight-head { justify-content: space-between; align-items: flex-start; }
+.month-header,
+.analysis-panels,
+.analysis-grid-top { align-items: stretch; }
+.month-header { justify-content: space-between; }
+.month-stats,
+.analysis-grid-top { flex-wrap: wrap; }
+.terminal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr)) 110px;
+  gap: 8px;
+}
+.calendar-row { margin-top: 8px; }
+.calendar-cell,
+.week-total {
+  min-height: 84px;
+  border: 1px solid #1a2438;
+  border-radius: 12px;
+  padding: 10px;
+  background: #0b0f1a;
+}
+.calendar-cell.positive,
+.bar-positive { background: rgba(0, 229, 160, 0.08); }
+.calendar-cell.strong-positive { background: rgba(0, 229, 160, 0.14); }
+.calendar-cell.negative,
+.bar-negative { background: rgba(255, 61, 90, 0.08); }
+.calendar-cell.empty { background: transparent; }
+.week-total {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(240, 180, 41, 0.08);
+}
+.calendar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.calendar-day {
+  color: #fff;
+  font-weight: 700;
+}
+.calendar-pnl,
+.mono-cell,
+.big-metric {
+  font-family: "JetBrains Mono", monospace;
+}
+.big-metric { font-size: 2rem; font-weight: 900; color: #fff; }
+.analysis-grid-top {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.analysis-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.card-title,
+.list-title {
+  color: #fff;
+  font-weight: 800;
+}
+.stack-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+.compact-grid {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+.list-stats {
+  display: grid;
+  justify-items: end;
+}
+.asset-row,
+.insight-terminal {
+  display: grid;
+  gap: 8px;
+}
+.bar-track {
+  height: 8px;
+  background: #0b0f1a;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: inherit;
+}
+.bar-positive { background: linear-gradient(90deg, #00e5a0, #00b07a); }
+.bar-negative { background: linear-gradient(90deg, #ff3d5a, #ff6a7f); }
+.trade-table-wrap { overflow-x: auto; }
+.terminal-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+.terminal-table th,
+.terminal-table td {
+  padding: 14px 10px;
+  border-bottom: 1px solid #1a2438;
+  text-align: left;
+  vertical-align: top;
+}
+.terminal-table th {
+  color: #48567a;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+}
+.inline-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.badge-buy { color: #00e5a0; background: rgba(0, 229, 160, 0.08); border-color: rgba(0, 229, 160, 0.18); }
+.badge-sell { color: #ff3d5a; background: rgba(255, 61, 90, 0.08); border-color: rgba(255, 61, 90, 0.18); }
+.badge-hold { color: #f0b429; background: rgba(240, 180, 41, 0.1); border-color: rgba(240, 180, 41, 0.18); }
+.badge-blue { color: #4a9eff; background: rgba(74, 158, 255, 0.1); border-color: rgba(74, 158, 255, 0.18); }
+.badge-purple { color: #a67dff; background: rgba(166, 125, 255, 0.1); border-color: rgba(166, 125, 255, 0.18); }
+.badge-gold { color: #f0b429; background: rgba(240, 180, 41, 0.1); border-color: rgba(240, 180, 41, 0.18); }
+.badge-muted { color: #48567a; background: rgba(72, 86, 122, 0.12); border-color: rgba(72, 86, 122, 0.18); }
+.flag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.filter-chip { padding: 6px 14px; }
+.filter-chip.active { color: #4a9eff; border-color: #4a9eff; background: rgba(74, 158, 255, 0.12); }
+.market-hero-card {
+  text-align: center;
+  background: radial-gradient(circle at 50% 0%, rgba(74, 158, 255, 0.14), #101520 60%);
+}
+.signal-display {
+  font-size: clamp(2.8rem, 7vw, 4.8rem);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  margin: 10px 0 14px;
+}
+.signal-chip-row { justify-content: center; flex-wrap: wrap; }
+.market-summary-copy {
+  max-width: 760px;
+  margin: 16px auto 0;
+  line-height: 1.7;
+}
+.reason-row {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 10px;
+}
+.reason-index { color: #00e5a0; font-weight: 800; }
+.callout-row,
+.mini-stat {
+  display: grid;
+  gap: 6px;
+}
+.callout-label {
+  color: #48567a;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+.analysis-hint {
+  margin-top: 4px;
+  color: #9fb1d9;
+  line-height: 1.6;
+}
+.mini-stat {
+  padding: 14px;
+  border: 1px solid #1a2438;
+  border-radius: 12px;
+  background: #0b0f1a;
+}
+.empty-panel {
+  color: #48567a;
+  text-align: center;
+  padding: 36px 12px 12px;
+}
+@media (max-width: 1080px) {
+  .header-inner,
+  .month-header,
+  .analysis-panels,
+  .analysis-grid-top {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+  .header-inner { align-items: stretch; padding: 16px 0; }
+  .header-stats,
+  .header-actions,
+  .month-stats { justify-content: flex-start; flex-wrap: wrap; }
+}
+@media (max-width: 760px) {
+  .header-inner,
+  .tab-row,
+  .terminal-content { width: min(100% - 20px, 1220px); }
+  .terminal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .terminal-grid > :nth-child(8) { grid-column: 1 / -1; }
+  .week-total { grid-column: 1 / -1; }
+  .analysis-grid-top,
+  .analysis-panels { display: grid; grid-template-columns: 1fr; }
+  .header-stats { display: none; }
+}
+

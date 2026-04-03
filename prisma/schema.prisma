@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Trade {
+  id             String   @id
+  timestamp      DateTime
+  productSymbol  String
+  asset          String
+  side           String
+  size           Float
+  price          Float
+  fees           Float    @default(0)
+  realizedPnl    Float
+  lotSize        Float
+  holdingMinutes Int?
+  session        String
+  flagsJson      String   @default("[]")
+  source         String   @default("delta")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([timestamp])
+  @@index([asset])
+  @@index([session])
+}
+
+model AppSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model SyncState {
+  key       String   @id
+  cursor    String?
+  updatedAt DateTime @updatedAt
+}
+
+model MarketPulseSnapshot {
+  id            Int      @id @default(autoincrement())
+  score         Int
+  signal        String
+  summary       String
+  source        String
+  headlinesJson String
+  createdAt     DateTime @default(now())
+}
