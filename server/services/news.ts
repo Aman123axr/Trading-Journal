@@ -34,10 +34,12 @@ function normalizeItems(sourceName: string, items: unknown): MarketHeadline[] {
   return itemList
     .map((item) => {
       const entry = item as { title?: string; link?: string; pubDate?: string };
-      if (!entry.title || !KEYWORDS.some((keyword) => entry.title.toLowerCase().includes(keyword))) return null;
-      const scored = scoreTitle(entry.title);
+      const title = entry.title?.trim();
+      if (!title) return null;
+      if (!KEYWORDS.some((keyword) => title.toLowerCase().includes(keyword))) return null;
+      const scored = scoreTitle(title);
       return {
-        title: entry.title,
+        title,
         source: sourceName,
         url: entry.link ?? "#",
         publishedAt: entry.pubDate ? new Date(entry.pubDate).toISOString() : new Date().toISOString(),
